@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="13" height="11" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16">
+  <image source="gfx/tilemap.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="101" name="objects" tilewidth="16" tileheight="16">
+  <image source="gfx/objects.png" width="64" height="64"/>
+ </tileset>
+ <layer name="background" width="13" height="11" opacity="0.4">
+  <data encoding="csv">
+2,3,2,1,3,3,4,4,3,1,3,1,4,
+1,4,3,3,2,1,3,4,1,1,3,1,2,
+2,3,2,2,2,4,1,4,1,1,4,2,1,
+1,3,2,3,4,2,1,4,3,2,3,4,1,
+2,1,3,1,2,3,1,3,4,1,3,1,3,
+2,2,1,3,4,3,2,2,3,3,3,2,2,
+2,3,3,2,1,3,3,1,2,3,3,3,3,
+3,1,3,3,3,1,4,4,1,4,2,1,4,
+3,1,3,1,2,1,3,4,3,2,2,3,4,
+1,2,2,1,4,4,2,1,4,2,2,3,4,
+3,1,2,4,2,2,2,3,4,1,4,4,2
+</data>
+ </layer>
+ <layer name="collision" width="13" height="11">
+  <data encoding="csv">
+12,13,13,14,0,0,0,0,0,12,13,13,14,
+22,15,33,34,0,0,0,0,0,32,33,17,24,
+22,24,0,0,0,0,0,0,0,0,0,27,24,
+32,34,0,0,0,12,13,14,0,0,0,32,34,
+0,0,0,0,42,33,33,48,44,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,42,46,13,13,44,0,0,0,0,
+12,14,0,0,0,32,33,34,0,0,0,12,14,
+22,24,0,0,0,0,0,0,0,0,0,22,24,
+22,35,13,14,0,0,0,0,0,12,13,37,24,
+32,33,33,34,0,0,0,0,0,32,33,33,34
+</data>
+ </layer>
+ <objectgroup name="objects" width="13" height="11">
+  <object type="spawnPoint" gid="102" x="96" y="96"/>
+  <object type="enemy" gid="101" x="112" y="16"/>
+  <object type="enemy" gid="101" x="80" y="176"/>
+  <object type="enemy" gid="101" x="0" y="96"/>
+  <object type="enemy" gid="101" x="80" y="16"/>
+  <object type="enemy" gid="101" x="112" y="176"/>
+  <object type="enemy" gid="101" x="192" y="96"/>
+ </objectgroup>
+ <layer name="foreground" width="13" height="11">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>

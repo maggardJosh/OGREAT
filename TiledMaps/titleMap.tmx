@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="15" height="12" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="tilemap" tilewidth="16" tileheight="16">
+  <image source="gfx/tilemap.png" width="160" height="160"/>
+ </tileset>
+ <tileset firstgid="101" name="objects" tilewidth="16" tileheight="16">
+  <image source="gfx/objects.png" width="64" height="64"/>
+ </tileset>
+ <layer name="background" width="15" height="12" opacity="0.4">
+  <data encoding="csv">
+2,3,2,1,3,3,4,4,3,1,3,1,1,2,1,
+1,4,3,3,2,1,3,4,1,1,3,1,3,4,1,
+2,3,2,2,2,4,1,4,1,1,4,2,3,3,4,
+1,3,2,3,4,2,1,4,3,2,3,4,4,1,2,
+2,1,3,1,2,3,1,3,4,1,3,1,3,2,3,
+2,2,1,3,4,3,2,2,3,3,3,2,2,4,1,
+2,3,3,2,1,3,3,1,2,3,3,3,3,1,4,
+3,1,3,3,3,1,4,4,1,4,2,1,4,2,4,
+3,1,3,1,2,1,3,4,3,2,2,3,2,2,2,
+3,3,2,1,2,2,2,1,4,4,1,2,3,1,2,
+1,1,2,3,1,4,2,1,3,4,2,2,3,4,3,
+4,3,2,4,3,4,1,4,3,3,2,2,3,4,4
+</data>
+ </layer>
+ <layer name="collision" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="objects" width="15" height="12">
+  <object type="spawnPoint" gid="102" x="128" y="128"/>
+  <object type="enemy" gid="101" x="16" y="16"/>
+  <object type="enemy" gid="101" x="112" y="16"/>
+  <object type="enemy" gid="101" x="64" y="16"/>
+  <object type="enemy" gid="101" x="192" y="16"/>
+  <object type="enemy" gid="101" x="0" y="128"/>
+  <object type="enemy" gid="101" x="0" y="80"/>
+  <object type="enemy" gid="101" x="0" y="32"/>
+  <object type="enemy" gid="101" x="0" y="176"/>
+  <object type="enemy" gid="101" x="80" y="192"/>
+  <object type="enemy" gid="101" x="32" y="192"/>
+  <object type="enemy" gid="101" x="176" y="192"/>
+  <object type="enemy" gid="101" x="128" y="192"/>
+  <object type="enemy" gid="101" x="224" y="176"/>
+  <object type="enemy" gid="101" x="224" y="128"/>
+  <object type="enemy" gid="101" x="224" y="32"/>
+  <object type="enemy" gid="101" x="224" y="80"/>
+  <object type="enemy" gid="101" x="160" y="16"/>
+ </objectgroup>
+ <layer name="foreground" width="15" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+</map>
