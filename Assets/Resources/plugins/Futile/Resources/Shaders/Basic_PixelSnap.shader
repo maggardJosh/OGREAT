@@ -60,26 +60,28 @@ Shader "Futile/Basic_PixelSnap" //Unlit Transparent Vertex Colored
 
             fixed4 frag(v2f IN) : COLOR
             {
+				IN.worldPos.x %= 1;
+				IN.worldPos.y %= 1;
 				if(IN.worldPos.x < 0)
-					IN.worldPos.x = -IN.worldPos.x + .5f;
+					IN.worldPos.x +=1;
 				if(IN.worldPos.y > 0)
-					IN.worldPos.y = -IN.worldPos.y - .5f;
+					IN.worldPos.y -= 1;
 
-                    if(IN.worldPos.x%1 < .2 && IN.worldPos.y%1 > -.2)	//Top left corner
+                    if(IN.worldPos.x < _DotMatrixAmount && IN.worldPos.y> -_DotMatrixAmount)	//Top left corner
                         return fixed4(1,1,1,0.05);
-                    else if(IN.worldPos.x%1 < .8f && IN.worldPos.y%1 > -.2f)	//Top
+                    else if(IN.worldPos.x < 1-_DotMatrixAmount && IN.worldPos.y> -_DotMatrixAmount)	//Top
                         return fixed4(1,1,1,.01f);
-                    else if(IN.worldPos.x%1 < .2 && IN.worldPos.y%1 > -.8f)		//Left
+                    else if(IN.worldPos.x < _DotMatrixAmount && IN.worldPos.y > -(1-_DotMatrixAmount))		//Left 
                         return fixed4(1,1,1,.01f);
-                    //else if(IN.worldPos.x%1 > .8f && IN.worldPos.y%1 > -.2f)	//Top right corner
+                    //else if(IN.worldPos.x > .8f && IN.worldPos.y> -.2f)	//Top right corner
                     //	return fixed4(0,0,0,.3f);
-                    //else if(IN.worldPos.y%1 < -.8f && IN.worldPos.x%1 < .2f)
+                    //else if(IN.worldPos.y < -.8f && IN.worldPos.x < .2f)
                     //	return fixed4(0,0,0,.3f);
-                    //else if(IN.worldPos.x%1 > .8f && IN.worldPos.y%1 < -.8f)
+                    //else if(IN.worldPos.x > .8f && IN.worldPos.y< -.8f)
                     //	return fixed4(0,0,0,0.3);
-                    //else if((IN.worldPos.x%1 > .8f && (IN.worldPos.y%1 < 0)))
+                    //else if((IN.worldPos.x > .8f && (IN.worldPos.y < 0)))
                     //	return fixed4(0,0,0,.3);
-                    //else if((IN.worldPos.y%1 < -.8f && IN.worldPos.x%1 > 0 ))
+                    //else if((IN.worldPos.y < -.8f && IN.worldPos.x> 0 ))
                     //	return fixed4(0,0,0,.3);
                     //else
 			

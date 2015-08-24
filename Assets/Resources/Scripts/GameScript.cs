@@ -30,6 +30,8 @@ public class GameScript : MonoBehaviour
 
         Futile.instance.Init(futileParams);
 
+//        UnityEngine.Screen.SetResolution(640, 480, false);
+
         Futile.atlasManager.LoadAtlas("Atlases/inGameAtlas");
         Futile.atlasManager.LoadFont(C.smallFontName, "smallFont_0", "Atlases/smallFont", 0, 0);
         Futile.atlasManager.LoadFont(C.largeFontName, "largeFont_0", "Atlases/largeFont", 0, 0);
@@ -130,8 +132,10 @@ public class GameScript : MonoBehaviour
         w.inDeadMode = true;
 
 
-
+        ((FPixelSnapShader)FShader.Basic_PixelSnap).dotMatrixAmount = Futile.displayScaleInverse;
     }
+
+    
 
     public void OnUpdate()
     {
@@ -212,14 +216,15 @@ public class GameScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
         if (Input.GetKeyDown(KeyCode.M))
             FSoundManager.isMuted = !FSoundManager.isMuted;
         if (Input.GetKeyDown(KeyCode.N))
         {
-            if (((FPixelSnapShader)FShader.Basic_PixelSnap).dotMatrixAmount == 0)
-                ((FPixelSnapShader)FShader.Basic_PixelSnap).dotMatrixAmount = 1;
-            else
-                ((FPixelSnapShader)FShader.Basic_PixelSnap).dotMatrixAmount = 0;
+            ((FPixelSnapShader)FShader.Basic_PixelSnap).dotMatrixAmount = Futile.displayScaleInverse;
+
+            RXDebug.Log(((FPixelSnapShader)FShader.Basic_PixelSnap).dotMatrixAmount);
         }
 
     }
