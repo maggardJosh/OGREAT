@@ -168,12 +168,12 @@ public class World : FContainer
                 spawnCounts[EnemyTypes.NORMAL] = 300;
                 spawnCounts[EnemyTypes.BIG] = 100;
                 spawnCounts[EnemyTypes.NINJA] = 50;
-                break;  
+                break;
             case 13: //1570
                 spawnCounts[EnemyTypes.NORMAL] = 100;
                 spawnCounts[EnemyTypes.BIG] = 100;
                 spawnCounts[EnemyTypes.NINJA] = 75;
-                break;  
+                break;
             case 14: //1925 
                 spawnCounts[EnemyTypes.NORMAL] = 500;
                 spawnCounts[EnemyTypes.BIG] = 300;
@@ -461,7 +461,7 @@ public class World : FContainer
         if (lastSpawnTime > SPAWN_INTERVAL)
         {
             lastSpawnTime = 0;
-            for (int i = 0; i < spawnPerWave; i++)
+            for (int i = 0; i < Mathf.Min(50, spawnPerWave * (wave > 5 ? wave - 4 : 1)); i++)
             {
                 if (numEnemiesSpawned - killCount > MAX_ENEMIES_AT_ONCE)
                     break;
@@ -557,7 +557,7 @@ public class World : FContainer
         died.x = Futile.screen.width;
         died.y = Futile.screen.halfHeight * .5f;
 
-        pressK = new FLabel(C.smallFontName, "PRESS K TO TRY AGAIN");
+        pressK = new FLabel(C.smallFontName, "CLICK TO TRY AGAIN");
         C.getCameraInstance().AddChild(pressK);
         pressK.alpha = 0;
         pressK.y = -Futile.screen.halfHeight * .5f;
@@ -566,12 +566,12 @@ public class World : FContainer
 
         Go.to(died, 1.0f, new TweenConfig().floatProp("x", 0).setEaseType(EaseType.BackOut).onComplete(() => { Futile.instance.SignalUpdate += ListenForRestart; }));
         Go.to(pressK, .5f, new TweenConfig().floatProp("alpha", 1));
-        
+
     }
 
     private void ListenForRestart()
     {
-        if (C.getKeyDown(C.ACTION_KEY))
+        if (Input.GetMouseButtonDown(0))
         {
             FSoundManager.PlaySound("menuSelect");
             Go.killAllTweensWithTarget(died);

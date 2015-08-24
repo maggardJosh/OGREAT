@@ -12,7 +12,6 @@ public class UI : FContainer
     float uiSideMargin = 3;
     float heartSpace = 1;
     World w;
-    FLabel k;
     FLabel killCount;
 
     FSprite selectedPowerupBG;
@@ -37,10 +36,6 @@ public class UI : FContainer
         selectedPowerup = new FSprite("normalpowerup");
         selectedPowerup.SetPosition(selectedPowerupBG.GetPosition());
         this.AddChild(selectedPowerup);
-
-        k = new FLabel(C.smallFontName, "K");
-        k.SetPosition(selectedPowerupBG.GetPosition() - Vector2.up * 7);
-        this.AddChild(k);
 
 
         killCount = new FLabel(C.smallFontName, "0");

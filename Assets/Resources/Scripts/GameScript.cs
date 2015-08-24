@@ -25,7 +25,7 @@ public class GameScript : MonoBehaviour
         futileParams.AddResolutionLevel(640.0f / 4f, 1.0f, 1.0f, "");
 
         futileParams.origin = new Vector2(0.5f, 0.5f);
-        futileParams.backgroundColor = new Color(0/ 255.0f, 94 / 255.0f, 38/255.0f);
+        futileParams.backgroundColor = new Color(0 / 255.0f, 94 / 255.0f, 38 / 255.0f);
         futileParams.shouldLerpToNearestResolutionLevel = true;
 
         Futile.instance.Init(futileParams);
@@ -57,7 +57,7 @@ public class GameScript : MonoBehaviour
 
         w.LoadMap("titleMap");
         w.currentState = World.State.IN_GAME;
-        
+
         w.UpdateWorldBounds();
 
         Futile.stage.AddChild(C.getCameraInstance());
@@ -71,7 +71,7 @@ public class GameScript : MonoBehaviour
         StartRandomMapMovement();
         w.ui.isVisible = false;
         w.p.SetPosition(-1000, 1000);
-        pressStart = new FLabel(C.smallFontName, "PRESS K TO START");
+        pressStart = new FLabel(C.smallFontName, "CLICK TO START");
         C.getCameraInstance().AddChild(pressStart);
         pressStart.y = -Futile.screen.halfHeight * .3f;
         pressStart.alpha = 0;
@@ -138,7 +138,7 @@ public class GameScript : MonoBehaviour
         switch (state)
         {
             case State.TITLE:
-                if (C.getKeyDown(C.ACTION_KEY))
+                if (C.getKeyDown(C.ACTION_KEY) || Input.GetMouseButtonDown(0))
                 {
                     FSoundManager.PlaySound("menuSelect");
                     float transOut = .6f;
@@ -165,7 +165,36 @@ public class GameScript : MonoBehaviour
                         w.LoadNewMap("mapOne");
                         madeForLD.RemoveFromContainer();
                         twitter.RemoveFromContainer();
+                        FLabel tutorial = new FLabel(C.smallFontName, "WASD - MOVE");
+                        tutorial.x = Futile.screen.halfWidth + tutorial.textRect.width;
+                        tutorial.y = -Futile.screen.halfHeight * .5f;
+                        C.getCameraInstance().AddChild(tutorial);
+                        Go.to(tutorial, .7f, new TweenConfig().floatProp("x", 0).setDelay(4.0f).setEaseType(EaseType.BackOut).onComplete(() =>
+                            {
+                                Go.to(tutorial, .7f, new TweenConfig().setDelay(2.0f).floatProp("x", -Futile.screen.halfWidth - tutorial.textRect.width).setEaseType(EaseType.BackIn).onComplete(() =>
+                                    {
+                                        tutorial.text = "HOLD LEFT CLICK - ATTACK";
+                                        tutorial.x = Futile.screen.halfWidth + tutorial.textRect.width;
+                                        Go.to(tutorial, .7f, new TweenConfig().floatProp("x", 0).setEaseType(EaseType.BackOut).onComplete(() =>
+                                        {
+                                            Go.to(tutorial, .7f, new TweenConfig().setDelay(2.0f).floatProp("x", -Futile.screen.halfWidth - tutorial.textRect.width).setEaseType(EaseType.BackIn).onComplete(() =>
+                                                {
+                                                    tutorial.text = "... DON'T DIE";
+                                                    tutorial.x = Futile.screen.halfWidth + tutorial.textRect.width;
+                                                    Go.to(tutorial, .7f, new TweenConfig().floatProp("x", 0).setEaseType(EaseType.BackOut).onComplete(() =>
+                                                    {
+                                                        Go.to(tutorial, .7f, new TweenConfig().setDelay(2.0f).floatProp("x", -Futile.screen.halfWidth - tutorial.textRect.width).setEaseType(EaseType.BackIn).onComplete(() =>
+                                                        {
+                                                            tutorial.RemoveFromContainer();
+                                                        }));
 
+                                                    }));
+                                                }));
+
+                                        }));
+                                    }));
+
+                            }));
                     }));
                     Go.killAllTweensWithTarget(madeForLD);
                     Go.killAllTweensWithTarget(twitter);

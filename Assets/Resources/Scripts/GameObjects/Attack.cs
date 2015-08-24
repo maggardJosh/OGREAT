@@ -44,7 +44,6 @@ public class Attack : FutileFourDirectionBaseObject
             if (o is Ninja)
             {
                 Ninja n = (Ninja)o;
-                RXDebug.Log(n.isRetreating, n.isoHeight);
                 if (!n.isRetreating && !hits.Contains(n) && n.isoHeight < 6 && n.isColliding(this))
                 {
                     hits.Add(n);

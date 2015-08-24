@@ -59,7 +59,7 @@ public class Ninja : FutileFourDirectionBaseObject
         handleStateCount = true;
         useActualMaxVel = true;
         maxVel = 1;
-        health = 200;
+        health = 2;
         sprite = new FAnimatedSprite("ninja");
         sprite.addAnimation(new FAnimation(Direction.DOWN.ToString() + State.IDLE, new int[] { 1 }, 150, false));
         sprite.addAnimation(new FAnimation(Direction.UP.ToString() + State.IDLE, new int[] { 5 }, 150, false));

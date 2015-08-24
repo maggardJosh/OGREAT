@@ -179,7 +179,7 @@ public class Player : FutileFourDirectionBaseObject
                 else if (C.getKey(C.LEFT_KEY))
                     xAcc = -moveSpeed;
 
-                if (C.getKey(C.ACTION_KEY) && !lastAttackPress)
+                if (Input.GetMouseButton(0))
                 {
                     CurrentState = State.ATTACKING;
                     FSoundManager.PlaySound("attack");
@@ -244,21 +244,21 @@ public class Player : FutileFourDirectionBaseObject
                     else
                     {
 
-                    ResetMaxVel();
-                    CurrentState = State.IDLE;
+                        ResetMaxVel();
+                        CurrentState = State.IDLE;
                     }
                 }
                 xVel *= .9f;
                 yVel *= .9f;
                 break;
             case State.DYING:
-                if(stateCount > .3f)
+                if (stateCount > .3f)
                     world.PlayerDied();
                 break;
         }
         base.OnFixedUpdate();
         PlayAnim();
-        lastAttackPress = C.getKey(C.ACTION_KEY);
+        lastAttackPress = Input.GetMouseButton(0);
         this.isVisible = invulnerableCount * 1000 % 50 < 30;
     }
 
@@ -281,57 +281,108 @@ public class Player : FutileFourDirectionBaseObject
 
     public void Attack()
     {
-        Vector2 dirVect = GetUnitVectorDirection(CurrentDirection);
+        Vector2 dirVect = new Vector2(Input.mousePosition.x - (x - C.getCameraInstance().x) * Futile.displayScale - Futile.screen.pixelWidth / 2f, Input.mousePosition.y - (this.y - C.getCameraInstance().y) * Futile.displayScale - Futile.screen.pixelHeight / 2f).normalized;
+        Direction d = Direction.UP;
+        if (Mathf.Abs(dirVect.x) > Mathf.Abs(dirVect.y))
+        {
+            if (dirVect.x < 0)
+                d = Direction.LEFT;
+            else
+                d = Direction.RIGHT;
+        }
+        else if (dirVect.y < 0)
+            d = Direction.DOWN;
+        else
+            d = Direction.UP;
+
+        float dist = 30;
+        Attack attack;
+        Attack attack2;
+        Attack attack3;
+        Attack attack4;
         switch (currentAttack)
         {
             case AttackType.NORMAL:
 
-                Attack attack = new Attack(world, CurrentDirection);
-                attack.SetDirection(CurrentDirection);
-                attack.SetPosition(this.GetPosition() + dirVect * 10);
-                Go.to(attack, .35f, new TweenConfig().floatProp("x", dirVect.x * 10, true).floatProp("y", dirVect.y * 10, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attack); }));
+                attack = new Attack(world, d);
+                attack.SetDirection(d);
+                attack.SetPosition(this.GetPosition() + dirVect * 5);
+                Go.to(attack, .35f, new TweenConfig().floatProp("x", dirVect.x * dist, true).floatProp("y", dirVect.y * dist, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attack); }));
                 world.AddObject(attack);
                 break;
             case AttackType.WIDE:
 
-                AttackWide attackWide = new AttackWide(world, CurrentDirection);
-                attackWide.SetPosition(this.GetPosition() + dirVect * 10);
-                Go.to(attackWide, .3f, new TweenConfig().floatProp("x", dirVect.x * 20, true).floatProp("y", dirVect.y * 20, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attackWide); }));
-                world.AddObject(attackWide);
+                attack = new Attack(world, d);
+                attack.SetPosition(this.GetPosition() + dirVect * 5);
+                float angle = Mathf.Atan2(dirVect.y, dirVect.x);
+                dirVect.x = Mathf.Cos(angle - Mathf.PI / 7f);
+                dirVect.y = Mathf.Sin(angle - Mathf.PI / 7f);
+                Go.to(attack, .3f, new TweenConfig().floatProp("x", dirVect.x * dist, true).floatProp("y", dirVect.y * dist, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attack); }));
+                world.AddObject(attack);
+
+                attack2 = new Attack(world, d);
+                world.AddObject(attack2);
+                Vector2 secondAttackDir = new Vector2(Mathf.Cos(angle + Mathf.PI / 7f), Mathf.Sin(angle + Mathf.PI / 7f));
+                attack2.SetPosition(this.GetPosition() + secondAttackDir * 5);
+                Go.to(attack2, .3f, new TweenConfig().floatProp("x", secondAttackDir.x * dist, true).floatProp("y", secondAttackDir.y * dist, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attack2); }));
+
                 break;
             case AttackType.WIDE_TWO:
+                attack = new Attack(world, d);
+                attack.SetPosition(this.GetPosition() + dirVect * 5);
+                angle = Mathf.Atan2(dirVect.y, dirVect.x);
+                dirVect.x = Mathf.Cos(angle - Mathf.PI / 10f);
+                dirVect.y = Mathf.Sin(angle - Mathf.PI / 10f);
+                Go.to(attack, .3f, new TweenConfig().floatProp("x", dirVect.x * dist * 1.5f, true).floatProp("y", dirVect.y * dist * 2f, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attack); }));
+                world.AddObject(attack);
 
-                AttackWide attackWide2 = new AttackWide(world, CurrentDirection);
-                attackWide2.SetPosition(this.GetPosition() + dirVect * 10);
-                Go.to(attackWide2, .3f, new TweenConfig().floatProp("x", dirVect.x * 20, true).floatProp("y", dirVect.y * 20, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attackWide2); }));
-                world.AddObject(attackWide2);
+                attack2 = new Attack(world, d);
+                world.AddObject(attack2);
+                secondAttackDir = new Vector2(Mathf.Cos(angle + Mathf.PI / 10f), Mathf.Sin(angle + Mathf.PI / 10f));
+                attack2.SetPosition(this.GetPosition() + secondAttackDir * 5);
+                Go.to(attack2, .3f, new TweenConfig().floatProp("x", secondAttackDir.x * dist * 1.5f, true).floatProp("y", secondAttackDir.y * dist * 2f, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attack2); }));
 
-                Direction behind = (Direction)(((int)CurrentDirection + 2) % Enum.GetValues(typeof(Direction)).Length);
-                AttackWide attackWide3 = new AttackWide(world, behind);
-                
-                attackWide3.SetPosition(this.GetPosition() + GetUnitVectorDirection(behind) );
-                attackWide3.alpha = 0;
-                Go.to(attackWide3, .15f, new TweenConfig().floatProp("alpha", 1).onComplete(() =>
-                    {
-                        Go.to(attackWide3, .3f, new TweenConfig().floatProp("x", -dirVect.x * 50, true).floatProp("y", -dirVect.y * 50, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attackWide3); }));
-                        world.AddObject(attackWide3);
+                attack3 = new Attack(world, d);
+                secondAttackDir = new Vector2(Mathf.Cos(angle - Mathf.PI / 4f), Mathf.Sin(angle - Mathf.PI / 4f));
+                attack3.SetPosition(this.GetPosition() + secondAttackDir * 5);
+                Go.to(attack3, .3f, new TweenConfig().floatProp("x", secondAttackDir.x * dist, true).floatProp("y", secondAttackDir.y * dist , true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attack3); }));
+                world.AddObject(attack3);
 
-                    }));
+                attack4 = new Attack(world, d);
+                world.AddObject(attack4);
+                secondAttackDir = new Vector2(Mathf.Cos(angle + Mathf.PI / 4f), Mathf.Sin(angle + Mathf.PI / 4f));
+                attack4.SetPosition(this.GetPosition() + secondAttackDir * 5);
+                Go.to(attack4, .3f, new TweenConfig().floatProp("x", secondAttackDir.x * dist, true).floatProp("y", secondAttackDir.y * dist, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(attack4); }));
+
+
                 break;
             case AttackType.WIDE_360:
 
-                for (int i = 0; i < 4; i++)
+                angle = Mathf.Atan2(dirVect.y, dirVect.x);
+                for (int i = 0; i < 8; i++)
                 {
-                    Direction attackDir = (Direction)((int)(CurrentDirection + i) % Enum.GetValues(typeof(Direction)).Length);
-                    AttackWide tempAttackWide = new AttackWide(world, attackDir);
-                    Vector2 newDirVect = GetUnitVectorDirection(attackDir);
-                    tempAttackWide.SetPosition(this.GetPosition() + newDirVect * 20);
+                    Direction attackDir = Direction.UP;
+                    if (Mathf.Abs(dirVect.x) > Mathf.Abs(dirVect.y))
+                    {
+                        if (dirVect.x < 0)
+                            attackDir = Direction.LEFT;
+                        else
+                            attackDir = Direction.RIGHT;
+                    }
+                    else if (dirVect.y < 0)
+                        attackDir = Direction.DOWN;
+                    else
+                        attackDir = Direction.UP;
+                    Attack tempAttackWide = new Attack(world, attackDir);
+                    Vector2 newDirVect = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                    tempAttackWide.SetPosition(this.GetPosition() + newDirVect * 5);
                     tempAttackWide.alpha = 0;
-                    Go.to(tempAttackWide, (i+1) * .1f, new TweenConfig().floatProp("alpha", 1).onComplete(() =>
+                    Go.to(tempAttackWide, (i + 1) * .03f, new TweenConfig().floatProp("alpha", 1).onComplete(() =>
                         {
-                            Go.to(tempAttackWide, .3f, new TweenConfig().floatProp("x", dirVect.x * 20, true).floatProp("y", dirVect.y * 20, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(tempAttackWide); }));
+                            Go.to(tempAttackWide, .3f, new TweenConfig().floatProp("x", newDirVect.x * dist, true).floatProp("y", newDirVect.y * dist, true).setEaseType(EaseType.QuadOut).onComplete(() => { world.RemoveObject(tempAttackWide); }));
                             world.AddObject(tempAttackWide);
                         }));
+                    angle += Mathf.PI / 4;
                 }
 
 
